@@ -2,6 +2,7 @@ import React from "react";
 import LogoMainBlack from "../../assets/png/logo-main-black.png";
 import { HiChevronDown } from "react-icons/hi";
 import { CgMenuRight } from "react-icons/cg";
+import { Link } from "react-router-dom";
 
 const linkData = [
   {
@@ -27,7 +28,9 @@ const NavBar = () => {
     <nav>
       <div className="container mx-auto h-[85px] flex justify-between items-center px-3 lg:px-0">
         <div className="flex items-center gap-[32px]">
-          <img src={LogoMainBlack} alt="logo main black" />
+          <Link to="/">
+            <img src={LogoMainBlack} alt="logo main black" />
+          </Link>
           <div className="hidden lg:block">
             <div className="flex gap-9">
               {linkData.map(({ link, text }, indx) => (
