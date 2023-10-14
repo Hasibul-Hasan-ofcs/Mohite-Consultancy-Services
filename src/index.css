@@ -40,6 +40,15 @@ html {
     );
 }
 
+.joinus-bg {
+  background: url("./assets/svg/wave.svg") right bottom no-repeat,
+    linear-gradient(to right, #fafbfc, #fafbfc);
+}
+
+.joinus-box-bg {
+  background: linear-gradient(95.64deg, #0076ce 0%, #9400d3 100%);
+}
+
 .footer-bg {
   background: linear-gradient(95.74deg, #0076ce -7.82%, #9400d3 143.96%);
 }
