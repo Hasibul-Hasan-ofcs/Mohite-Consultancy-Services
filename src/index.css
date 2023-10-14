@@ -39,3 +39,7 @@ html {
       #fdddfe 100%
     );
 }
+
+.footer-bg {
+  background: linear-gradient(95.74deg, #0076ce -7.82%, #9400d3 143.96%);
+}

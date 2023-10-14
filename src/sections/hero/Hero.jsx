@@ -5,7 +5,7 @@ import HeroImg3 from "../../assets/png/hero-img-3.png";
 
 const Hero = () => {
   return (
-    <div className="container mx-auto flex items-center flex-col-reverse lg:flex-row">
+    <div className="container mx-auto px-3 lg:px-0 flex items-center flex-col-reverse lg:flex-row">
       <div className="w-full lg:w-1/2 text-center lg:text-start py-9 lg:py-0 min-h-fit lg:min-h-[calc(803px-85px)] flex flex-col justify-center items-center lg:items-start">
         <h1 className="text-[65px] leading-[80px] font-bold">
           Find{" "}
