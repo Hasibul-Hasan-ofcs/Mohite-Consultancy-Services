@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBar from "../../sections/navbar/NavBar";
 import Star from "../../assets/png/star.png";
 import Calendar from "../../assets/png/calendar.png";
 import DetailsRecommendationCard from "../../components/cards/details/DetailsRecommendationCard";
+import { useParams } from "react-router-dom";
 
 const Details = () => {
+  const [dataArr, setDataArr] = useState(null);
+  const [cardsDataArr, setCardsDataArr] = useState(null);
+  const { name } = useParams();
+  console.log(name);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/details?q=${name}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setDataArr(data);
+      });
+
+    fetch(`http://localhost:3000/details?_limit=3`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCardsDataArr(data);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-[#fafbfc]">
       <NavBar />
@@ -12,32 +32,35 @@ const Details = () => {
         {/* Left portion */}
         <div className="w-full lg:w-2/5">
           <h3 className="text-[35px] leading-[52.5px] font-bold">
-            Michael Jackson
+            {dataArr && dataArr[0].name}
           </h3>
           <p className="text-[20px] leading-[32px] font-normal pt-4">
-            I am here to provide my expertise in accounting and finance, which
-            includes financial statements, economics, and auditing, all to
-            assist you effectively
+            {dataArr && dataArr[0].intro}
           </p>
 
           <p className="py-8 flex items-center gap-3">
             <img src={Star} alt="Star image" className="h-6 w-fit" />
             <span className="text-[20px] leading-[30px]">
-              <span className="text-[#0076CE] font-bold">4.8</span>(89)
+              <span className="text-[#0076CE] font-bold">
+                {dataArr && dataArr[0].rating}
+              </span>
+              ({dataArr && dataArr[0].reviewCount})
             </span>
           </p>
 
           <div className="common_shadow rounded-[20px] p-6">
             <p className="flex items-center justify-between">
               <span className="text-xl font-normal">
-                Basic to complex tasks
+                {dataArr && dataArr[0].taskComplexity}
               </span>
-              <span className="text-2xl font-bold">₹4,370</span>
+              <span className="text-2xl font-bold">
+                {dataArr && dataArr[0].price}
+              </span>
             </p>
             <p className="flex gap-1 py-8">
               <img src={Calendar} alt="calendar" />
               <span className="text-xl font-normal">
-                Delivers the job within 2 days
+                {dataArr && dataArr[0].deliveryTime}
               </span>
             </p>
             <div className="flex items-center justify-between gap-[25px]">
@@ -55,11 +78,10 @@ const Details = () => {
               What people say?
             </h3>
             <p className="text-[20px] leading-[32px] font-normal pt-4">
-              I cannot express enough gratitude for the support Micheal has
-              provided in managing my personal finances. Their attention to
-              detail and deep understanding of financial markets has ensured
-              that my investments are in safe hands. I highly recommend their
-              services to anyone seeking financial guidance.
+              {dataArr && dataArr[0].testimonial.text}
+            </p>
+            <p className="text-[16px] leading-[32px] font-normal pt-4 text-gray-500 text-end">
+              -{dataArr && dataArr[0].testimonial.author}
             </p>
           </div>
         </div>
@@ -67,29 +89,35 @@ const Details = () => {
         {/* Right Portion */}
         <div className="w-full lg:w-3/5">
           <img
-            src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?fit=crop&w=800&q=80"
-            alt="image"
+            src={dataArr && dataArr[0].image}
+            alt={dataArr && dataArr[0].name}
             className="rounded-[20px]"
           />
           <h3 className="text-[35px] leading-[52.5px] font-bold py-8">
-            Michael Jackson
+            {dataArr && dataArr[0].name}
           </h3>
           <div className="flex flex-wrap">
             <div className="w-1/3">
               <p className="text-[#999999] font-bold leading-[34px]">FROM</p>
-              <p className="my-2 text-xl leading-[34px]">INDIA</p>
+              <p className="my-2 text-xl leading-[34px]">
+                {dataArr && dataArr[0].about.from}
+              </p>
             </div>
             <div className="w-1/3">
               <p className="text-[#999999] font-bold leading-[34px]">
                 PARTNER SINCE
               </p>
-              <p className="my-2 text-xl leading-[34px]">2011</p>
+              <p className="my-2 text-xl leading-[34px]">
+                {dataArr && dataArr[0].about.partnerSince}
+              </p>
             </div>
             <div className="w-1/3">
               <p className="text-[#999999] font-bold leading-[34px]">
                 AVERAGE RESPONSE TIME
               </p>
-              <p className="my-2 text-xl leading-[34px]">30 minutes</p>
+              <p className="my-2 text-xl leading-[34px]">
+                {dataArr && dataArr[0].about.averageResponseTime}
+              </p>
             </div>
           </div>
 
@@ -97,9 +125,7 @@ const Details = () => {
           <div className="py-8">
             <p className="text-[#999999] font-bold leading-[34px]">ABOUT</p>
             <p className="my-2 text-xl leading-[34px]">
-              I am a Professional Charted Accountant here to offer professional
-              services of accounting and finance, financial statements,
-              Bookkeeping in affordable price.
+              {dataArr && dataArr[0].about.description}
             </p>
           </div>
 
@@ -109,15 +135,19 @@ const Details = () => {
                 SERVICES I OFFER
               </p>
               <ul className="list-disc ps-8">
-                <li>One</li>
-                <li>One</li>
+                {dataArr &&
+                  dataArr[0].about.services.map((el, indx) => (
+                    <li key={indx}>{el}</li>
+                  ))}
               </ul>
             </div>
             <div className="w-1/2">
               <p className="text-[#999999] font-bold leading-[34px]">WHY ME?</p>
               <ul className="list-disc ps-8">
-                <li>One</li>
-                <li>One</li>
+                {dataArr &&
+                  dataArr[0].about.benefits.map((el, indx) => (
+                    <li key={indx}>{el}</li>
+                  ))}
               </ul>
             </div>
           </div>
@@ -128,8 +158,18 @@ const Details = () => {
           Michael Jackson
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-          <DetailsRecommendationCard />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
+          {cardsDataArr &&
+            cardsDataArr.map((el, indx) => (
+              <DetailsRecommendationCard
+                name={el.name}
+                intro={el.intro}
+                rating={el.rating}
+                reviewCount={el.reviewCount}
+                price={el.price}
+                key={indx}
+              />
+            ))}
         </div>
       </div>
     </div>
