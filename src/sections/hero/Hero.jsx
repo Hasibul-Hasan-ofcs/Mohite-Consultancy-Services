@@ -82,6 +82,7 @@ const Hero = () => {
                     to={`/details/${el.name}`}
                     className="transition_common border h-[50px] px-4 flex items-center gap-4 w-full bg-white hover:bg-[#0076ce] hover:text-white overflow-hidden"
                     key={indx}
+                    onClick={() => (document.body.style.overflow = "")}
                   >
                     <img
                       src={el.image}
@@ -138,6 +139,7 @@ const Hero = () => {
                     to={`/details/${el.name}`}
                     className="transition_common border h-[50px] px-4 flex items-center gap-4 w-full bg-white hover:bg-[#0076ce] hover:text-white overflow-hidden"
                     key={indx}
+                    onClick={() => (document.body.style.overflow = "")}
                   >
                     <img
                       src={el.image}

@@ -26,7 +26,9 @@ const DetailsRecommendationCard = ({
           <span className="text-xl font-bold">{name}</span>
           <span className="text-2xl font-bold">{price}</span>
         </p>
-        <p className="text-base">{intro}</p>
+
+        <p className="text-base line-clamp-2">{intro}</p>
+
         <p className="pt-4 pb-8 flex items-center gap-3">
           <img src={Star} alt="Star image" className="h-5 w-fit" />
           <span className="text-[16px] leading-[24px]">
