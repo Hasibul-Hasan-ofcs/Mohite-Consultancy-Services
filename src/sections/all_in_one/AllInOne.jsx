@@ -36,7 +36,7 @@ const AllInOne = () => {
           <div className="absolute top-0 right-0">
             <img src={Student} alt="Student Image" />
           </div>
-          <div className="absolute bottom-0 left-0">
+          <div className="absolute bottom-0 left-0 z-[2]">
             <img src={Teacher} alt="Teacher Image" />
           </div>
 

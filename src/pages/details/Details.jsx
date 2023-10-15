@@ -4,6 +4,7 @@ import Star from "../../assets/png/star.png";
 import Calendar from "../../assets/png/calendar.png";
 import DetailsRecommendationCard from "../../components/cards/details/DetailsRecommendationCard";
 import { useParams } from "react-router-dom";
+import CustomUnderline from "../../components/custom_underline/CustomUnderline";
 
 const Details = () => {
   const [dataArr, setDataArr] = useState(null);
@@ -12,7 +13,8 @@ const Details = () => {
   console.log(name);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/details?q=${name}`)
+    // fetch(`http://localhost:3000/details?q=${name}`)
+    fetch(`http://localhost:3000/details?name_like=${name}`)
       .then((res) => res.json())
       .then((data) => {
         setDataArr(data);
@@ -83,6 +85,9 @@ const Details = () => {
             <p className="text-[16px] leading-[32px] font-normal pt-4 text-gray-500 text-end">
               -{dataArr && dataArr[0].testimonial.author}
             </p>
+            <div>
+              <CustomUnderline />
+            </div>
           </div>
         </div>
 
@@ -90,6 +95,9 @@ const Details = () => {
         <div className="w-full lg:w-3/5">
           <img
             src={dataArr && dataArr[0].image}
+            onError={(e) => {
+              e.target.src = `/default-fallback-image.png`;
+            }}
             alt={dataArr && dataArr[0].name}
             className="rounded-[20px]"
           />
@@ -168,6 +176,7 @@ const Details = () => {
                 reviewCount={el.reviewCount}
                 price={el.price}
                 key={indx}
+                image={el.image}
               />
             ))}
         </div>

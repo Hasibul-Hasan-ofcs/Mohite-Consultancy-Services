@@ -3,14 +3,23 @@ import HeroImg1 from "../../assets/png/hero-img-1.png";
 import HeroImg2 from "../../assets/png/hero-img-2.png";
 import HeroImg3 from "../../assets/png/hero-img-3.png";
 import { Link } from "react-router-dom";
+import Modal from "../modal/Modal";
 
 const Hero = () => {
   const [dataArr, setDataArr] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textFieldContent, setTextFieldContent] = useState("");
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = "";
+  };
 
   const handleChangeText = (e) => {
-    const value = e.target.value;
+    const name = e.target.value;
+    setTextFieldContent(name);
 
-    fetch(`http://localhost:3000/details?q=${value}`)
+    fetch(`http://localhost:3000/details?name_like=${name}`)
       .then((res) => res.json())
       .then((data) => {
         setDataArr(data);
@@ -19,6 +28,8 @@ const Hero = () => {
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
+    setIsModalOpen(true);
+    document.body.style.overflow = "hidden";
   };
 
   return (
@@ -55,7 +66,7 @@ const Hero = () => {
             Search
           </button>
 
-          {dataArr && dataArr.length == 0 && (
+          {textFieldContent && dataArr && dataArr.length == 0 && (
             <div className="w-full rounded-[10px] overflow-hidden shadow_common absolute top-[73px] bg-white max-h-[300px] overflow-y-scroll">
               <p className="h-[50px] px-4 flex items-center text-center w-full">
                 No matching content found
@@ -63,7 +74,7 @@ const Hero = () => {
             </div>
           )}
 
-          {dataArr && (
+          {textFieldContent && dataArr && (
             <div className="w-full rounded-[10px] overflow-hidden shadow_common absolute top-[73px] bg-white max-h-[300px] overflow-y-scroll">
               {dataArr.map((el, indx) => {
                 return (
@@ -74,6 +85,9 @@ const Hero = () => {
                   >
                     <img
                       src={el.image}
+                      onError={(e) => {
+                        e.target.src = `/default-fallback-image.png`;
+                      }}
                       alt={el.name}
                       className="w-[50px] h-fit"
                     />
@@ -98,6 +112,49 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="w-full lg:w-[500px]">
+          <h1 className="text-[35px] leading-[80px] font-bold">
+            Search{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0076CE] to-[#9400D3]">
+              Results
+            </span>
+          </h1>
+
+          {dataArr && dataArr.length == 0 && (
+            <div className="w-full rounded-[10px] overflow-hidden shadow_common bg-white max-h-[300px] overflow-y-scroll">
+              <p className="h-[50px] px-4 flex items-center text-center w-full">
+                No matching content found
+              </p>
+            </div>
+          )}
+
+          {dataArr && (
+            <div className="w-full rounded-[10px] overflow-hidden shadow_common bg-white max-h-[300px] overflow-y-scroll">
+              {dataArr.map((el, indx) => {
+                return (
+                  <Link
+                    to={`/details/${el.name}`}
+                    className="transition_common border h-[50px] px-4 flex items-center gap-4 w-full bg-white hover:bg-[#0076ce] hover:text-white overflow-hidden"
+                    key={indx}
+                  >
+                    <img
+                      src={el.image}
+                      onError={(e) => {
+                        e.target.src = `/default-fallback-image.png`;
+                      }}
+                      alt={el.name}
+                      className="w-[50px] h-fit"
+                    />
+                    <p className="font-bold">{el.name}</p>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </Modal>
     </div>
   );
 };

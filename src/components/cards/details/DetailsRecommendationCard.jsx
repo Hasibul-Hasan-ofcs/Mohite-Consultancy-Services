@@ -7,12 +7,16 @@ const DetailsRecommendationCard = ({
   rating,
   reviewCount,
   price,
+  image,
 }) => {
   return (
     <div className="common_shadow rounded-[20px]">
       <div className="h-[244px] w-full overflow-hidden rounded-[20px]">
         <img
-          src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?fit=crop&w=800&q=80"
+          src={image}
+          onError={(e) => {
+            e.target.src = `/default-fallback-image.png`;
+          }}
           alt="image"
           className="rounded-[20px]"
         />
